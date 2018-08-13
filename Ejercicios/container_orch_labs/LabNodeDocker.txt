@@ -1,0 +1,72 @@
+1. Levantar docker. Click en "Docker Quick Start Terminal" si se tiene Docker Toolbox: Se abrirá un
+terminal con docker ya seteado, al ejecutar "docker version" deberian aparecer tanto cliente como servidor. 
+En el caso Docker for Windows hacer click en "Docker for Windows" y levantar una terminar Powershell como administrador.
+Crear un usuario en Docker Hub.
+Opcionalmente si se quiere trabajar con Github crear un repositorio llamado hellonodedocker
+2. Localmente, en una carpeta donde va a estar nuestro código ejecutar:
+git clone https://github.com/diegochavezcarro/hellonodedocker.git
+Si no se tiene git instalado bajarse el zip del proyecto.
+3. Entrar en la carpeta hellonodedocker.
+Crear un archivo llamado app.js con el siguiente contenido:
+
+const http = require('http');
+const os = require('os');
+console.log("Server starting...");
+var handler = function(request, response) {
+	console.log("Received request from " + request.connection.remoteAddress);
+	console.log('Received request for URL: ' + request.url);
+	response.writeHead(200);
+	response.end("You've hit " + os.hostname() + "\n");
+};
+var www = http.createServer(handler);
+www.listen(8080);
+
+4. Crear un archivo llamado Dockerfile (así, sin extensión) con este contenido:
+
+FROM node:7
+EXPOSE 8080
+ADD app.js /app.js
+ENTRYPOINT ["node", "app.js"]
+
+5. Subir a Github (opcional):
+git add .
+git commit -m "primera subida"
+git push -u origin master
+Se vera en el repo de github, por ejemplo:
+https://github.com/diegochavezcarro/hellonodedocker
+Reemplazar diegochavezcarro con el nombre de usuario.
+
+6. Crear una imagen de docker en el registro local de imagenes de docker (posicionados en la carpeta hellonodedocker):
+docker build -t hellonodedocker .
+7. Ver si se creó la imagen:
+docker image ls
+8. Levantar un contenedor a partir de la imagen creada:
+docker run --name hellonode-container -p 8080:8080 -d hellonodedocker
+9. En el browser ir a http://localhost:8080/
+En el caso Docker for Toolbox ver qué IP está usando la Virtual creada.
+10. En la terminal ejecutar lo siguiente para ver si se creo el contenedor:
+docker container ls
+11. Parar al contenedor, y borrarlo:
+docker stop hellonode-container
+docker rm hellonode-container
+12. "Taguear" la imagen para que pueda ser subida a Docker Hub:
+docker tag hellonodedocker diegochavezcarro/hellonodedocker
+13. Subir a Docker Hub:
+docker push diegochavezcarro/hellonodedocker
+Si pide usuario y contraseña ingresar los creados en el paso 1.
+14. Ver si se puede levantar un contenedor a partir de la imagen subida a dockerhub:
+docker run -p 8080:8080 -d diegochavezcarro/hellonodedocker
+15. Levantar docker run -p 8080:8080 -d diegochavezcarro/hellonodedocker
+16. Ver si se ve la app en: http://localhost:8080/
+17. Si se quiere realizar limipieza borrar contenedores e imagenes:
+Ver los id de los contenedores:
+docker container ls
+Parar y borrar los contenedores:
+docker container stop 8e2e2b318b78
+docker rm stop 8e2e2b318b78
+Borrar las imagenes:
+docker image rm hellonodedocker
+docker image rm diegochavezcarro/hellonodedocker
+
+
+

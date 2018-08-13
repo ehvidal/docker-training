@@ -1,0 +1,31 @@
+Instalacion de Docker for Windows Edge:
+a. https://download.docker.com/win/edge/Docker%20for%20Windows%20Installer.exe
+b. El docker-machine no anda bien, buscar version:
+https://github.com/docker/machine/releases/download/v0.15.0/docker-machine-Windows-x86_64.exe
+c. Reemplazar el archivo actual en:
+C:\Program Files\Docker\Docker\resources\bin
+
+1. Entrar al programa Hyper V-Manager.
+Si se encuentran problemas para levantar el Hyper-V:
+https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+https://docs.docker.com/docker-for-windows/troubleshoot/#hyper-v
+2. Dar click al Virtual Switch Manager en el menu de la derecha
+3. Crear un Virtual Switch del tipo External
+4. Nombrarlo, por ejemplo con nombre myswitch, y chequear el box para compartir el adaptador de red de la maquina host
+5. Reiniciar la PC.
+6. Crear una maquina virtual usando la herramienta de management de nodos, docker-machine (powershell en modo administrador):
+docker-machine create -d hyperv --hyperv-virtual-switch "myswitch" myvm1
+7. Crear una segunda maquina virtual:
+docker-machine create -d hyperv --hyperv-virtual-switch "myswitch" myvm2
+8. Para ejecutar todos los comandos de docker apuntando a una de las virtuales:
+docker-machine env myvm1
+Copiar la ultima linea y ejecutarla, por ejemplo:
+& "C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe" env myvm1 | Invoke-Expression
+9. Si ejecutamos docker-machine ls, aparecerá un * para indicarnos a cual estamos conectada.
+10. Si queremos desconectarnos:
+& "C:\Program Files\Docker\Docker\Resources\bin\docker-machine.exe" env -u | Invoke-Expression
+11. Si vencen los certificados (por ejemplo si restarteamos la PC):
+docker-machine restart myvm1
+docker-machine regenerate-certs myvm1
+
+
