@@ -1,64 +1,86 @@
-Bind Volumes:
+# Bind Volumes
+
 En el caso Docker for Windows abrir una ventana y comprobar que no estamos conectados a ninguna vm creada
 por nosotros, sino a la que viene por defecto (MobyLinuxVM). Ejecutando:
 docker-machine ls
-Si no aparece ningún asterisco es que estamos conectados a MobyLinuxVM
-1. Crear una carpeta dentro de algun directorio del host. Por ejemplo (conveniente en el caso Windows):
-2.Por ej,crear un directorio llamado volumen, otro interno al mismo llamado carpeta y dentro del
+Si no aparece ningï¿½n asterisco es que estamos conectados a MobyLinuxVM
+
+1. Crear una carpeta dentro de algun directorio del host. Por ejemplo (conveniente en el caso Windows): C:\Users\<usuario>
+
+2. Por ej,crear un directorio llamado volumen, otro interno al mismo llamado carpeta y dentro del
 ultimo crear un archivo.txt
 En el caso Windows es conveniente sea del tipo (usar tu nombre de usuario):
 /c/Users/dchavez/volumen/carpeta
+
 3. Ejecutar:
 docker run -v /c/Users/dchavez/volumen/carpeta:/container/carpeta -i -t ubuntu  /bin/bash
-En el caso Docker for Windows aparecerá una ventana preguntando si permitimos compartir una carpeta, darle OK.
+En el caso Docker for Windows aparecerï¿½ una ventana preguntando si permitimos compartir una carpeta, darle OK.
+
 4. En la terminal devuelta ejecutar:
 cd /container/carpeta/
 ls
 Que se observa?
+
 5. Ejecutar:
 touch archivo2.txt
+
 6. Ver en el file system del Host. Que se observa?
+
 7. Apagar y borrar los contenedores. Borrar la imagen creada (ubuntu), pero no borrar docker4w/nsenter-dockerd
 Esa imagen se utiliza para docker for windows.
 
-Named Volumes:
+
+# Named Volumes
+
 En el caso Docker for Windows conectarse a la myvm1 creada previamente
+
 1. Crear un container con un volumen: 
 docker container run -dit --name pruebavol --mount source=volumen,target=/vol alpine
+
 2. Ver si se creo el volumen:
 docker volume ls
+
 3. Inspeccionarlo y ver donde se guardan los datos del volumen:
 docker volume inspect volumen
-Aclaración: 
-Si docker está dentro de una vm se verá: /mnt/sda1/var/lib/docker/volumes/volumen/_data
+AclaraciÃ³n: 
+Si docker estÃ¡ dentro de una vm se verÃ¡: /mnt/sda1/var/lib/docker/volumes/volumen/_data
 Si es Docker for Windows en modo "Windows Containers": C:\\ProgramData\\Docker\\volumes\\myvol\\_data
-Si está ejecutandose nativamente (Linux): /var/lib/docker/volumes/volumen/_data
-Este último tambien se verá en una VM
+Si estÃ¡ ejecutandose nativamente (Linux): /var/lib/docker/volumes/volumen/_data
+Este Ãºltimo tambien se verÃ¡ en una VM
+
 4. Ver el contenido del volumen:
-Si se está usando docker toolbox:
+Si se estÃ¡ usando docker toolbox:
 docker-machine ssh default "sudo sh"
 Docker for Windows en vez de default usar myvm1
 ls /mnt/sda1/var/lib/docker/volumes/volumen/_data
 ls /var/lib/docker/volumes/volumen/_data
 salir con exit.
+
 5. Entrar al contenedor creado:
 docker container exec -it pruebavol sh
+
 6. Crear un archivo:
 echo "Hola Volumen" > /vol/file1
 cat /vol/file1
+
 7. ctrl + pq para volver a la terminal. Ver el contenido generado en el docker host.
 docker-machine ssh default "sudo sh"
 cat /var/lib/docker/volumes/volumen/_data/file1
 cat /mnt/sda1/var/lib/docker/volumes/volumen/_data/file1
 Salir con exit
+
 8. Borrar el container creado:
 docker container stop pruebavol
 docker container rm pruebavol
+
 9. Crear otro contenedor que use el mismo volumen:
 docker container run -dit --name pruebavolubuntu --mount source=volumen,target=/vol ubuntu
+
 10. Ver el contenido del archivo:
 docker container exec -it pruebavolubuntu sh
 cat /vol/file1
+
 11. Que sucedio?
-12. Borrar containers, imagenes y tmb el volumen, que no se borra si no lo pedimos explícitamente:
+
+12. Borrar containers, imagenes y tmb el volumen, que no se borra si no lo pedimos explï¿½citamente:
 docker volume rm volumen
