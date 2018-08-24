@@ -1,33 +1,37 @@
 1. Tener Minikube levantado y configurado.
+
 2. Ver el archivo deploy.yml.
+
 3. Crear un deployment a partir del mismo:
 kubectl create -f deploy.yml
+
 4. Ver los pods que se crearon:
 kubectl get pods
 kubectl get pods -o wide
+
 5. Ver los replicasets:
 kubectl get rs
 kubectl get rs -o json
+
 6. Ver el deployment creado:
 kubectl get deployments
 kubectl get deployments -o json
 kubectl describe deploy hello-deploy
+
 7. Ver el archivo svc.yml
+
 8. Crear un servicio a partir del mismo:
 kubectl create -f svc.yml
 Ver la config del servicio creado:
 kubectl get services -o json
+
 9. En el cliente acceder por browser a:
 http://192.168.0.36:30001/
-Reemplazar por la IP que se creó para el nodo.
+Reemplazar por la IP que se creï¿½ para el nodo.
+
 10. Limpiar:
 kubectl delete service hello-node
 kubectl delete deployment hello-node
 minikube stop
 minikube delete
 Por las dudas borrar el directorio .minikube en la home del usuario.
-
-
-
-
-

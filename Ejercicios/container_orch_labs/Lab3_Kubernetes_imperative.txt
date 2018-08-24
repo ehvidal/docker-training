@@ -1,5 +1,6 @@
 Instalacion de Minikube:
 https://github.com/kubernetes/minikube/
+
 Para Windows, bajarse:
 https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
 Renombrarlo como minikube.exe y setearlo en el PATH del sistema operativo.
@@ -7,43 +8,55 @@ Instalar kubectl:
 https://kubernetes.io/docs/tasks/tools/install-kubectl
 https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/windows/amd64/kubectl.exe
 Tambien agregarlo al PATH del Sistema Operativo.
+
 1. Levantar minikube (por defecto usa virtual box, que deberia estar previamente instalado). 
 minikube start
 Si no estamos usando virtual box elegir otro driver, por ejemplo si usamos Hyper-V y levantando cmd o Powershell en modo admin:
 minikube start --vm-driver=hyperv --hyperv-virtual-switch="myswitch" --memory=4096
+
 2. Ver informacion del kubectl y del cluster :
 kubectl version --output=yaml
 kubectl config current-context
 kubectl config view
 kubectl cluster-info
+
 3. En otra ventana podemos conectarnos al server:
 minikube ssh
-Ver qué hay adentro:
+Ver quï¿½ hay adentro:
 pwd
 ls
 ps aux
 docker version
+
 4. En la ventana original ver los nodos (uno solo en el caso de minikube)
 kubectl get nodes
+
 5. Ver en detalle el nodo:
 kubectl describe node minikube
+
 6. Levantar consola grafica:
 minikube dashboard
+
 7. Ver si hay algo levantado en el namespace default:
 kubectl get pods
 kubectl get replicasets
 kubectl get services
 kubectl get deployments
+
 8. Crear una deployment de forma imperativa:
 kubectl run hello-node --image=diegochavezcarro/hellonodedocker:latest --port=8080
+
 9. Esperar hasta que este lista la app:
 kubectl get pods
-10. Ver más detalles del pod creado
+
+10. Ver mï¿½s detalles del pod creado
 Usando el nombre del pod generado:
 kubectl get pods -o json hello-node-ccdbcf554-nfbvr
 kubectl describe pods hello-node-ccdbcf554-nfbvr
+
 11. Ver los eventos:
 kubectl get events
+
 12. Ver dentro del pod: 
 kubectl exec hello-node-ccdbcf554-nfbvr ps aux
 kubectl exec -it hello-node-ccdbcf554-nfbvr sh
@@ -53,47 +66,50 @@ Repaso de Docker: Ejecutar:
 ps aux
 Anotar el Process ID del comando "node app.js"
 Dar exit
+
 13. En la otra terminal, la cual estaba conectada al nodo, ejecutar:
 curl 172.17.0.4:8080
-Reemplazar esa IP por la que aparece en los comandos descriptivos de más arriba.
+Reemplazar esa IP por la que aparece en los comandos descriptivos de mï¿½s arriba.
 Repaso de Docker: Ejecutar:
 ps aux
 Anotar el Process ID del comando "node app.js". Compararlo con el del punto anterior.
+
 14. Volviendo a la terminal original:
 Ver los deployments:
 kubectl get deployments
 Ver el detalle:
 kubectl get deployments -o json hello-node
+
 15. Ver los replicasets generados:
 kubectl get replicasets
 Ver el detalle, usando el nombre anteriormente obtenido:
+
 16. Levantar un servicio para exponer el deployment:
 kubectl expose deployment hello-node --type=NodePort
+
 17. Ver los servicios levantados y el detalle:
 kubectl get services
 kubectl get services -o json hello-node
 En el comando anterior buscar el nodePort
+
 18. En la PC cliente ir a un browser e ir a:
 http://192.168.0.36:32405/
 Reemplazar por la IP asignada al nodo y por el puerto obtenido en el anterior punto.
+
 19. En la terminal conectada al nodo ejecutar:
 curl 10.97.50.72:8080
 Reemplazar por la IP del cluster ip obtenido con el comando "kubectl get services"
 curl localhost:32405
+
 20. Ver los logs que fue levantando el pod:
 kubectl logs hello-node-ccdbcf554-nfbvr
+
 21. Otra forma de levantar el browser con minikube:
 minikube service hello-node
+
 22. Otra forma de ver los pods, mostrando detalles de los nodos donde se crearon (en Minikube va a ser uno solo):
 kubectl get pods -o wide
+
 22. Limpiar:
 kubectl delete service hello-node
 kubectl delete deployment hello-node
-
-
-
-
-
-
-
-
