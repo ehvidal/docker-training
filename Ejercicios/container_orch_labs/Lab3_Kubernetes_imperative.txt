@@ -4,6 +4,7 @@ https://github.com/kubernetes/minikube/
 Para Windows, bajarse:
 https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
 Renombrarlo como minikube.exe y setearlo en el PATH del sistema operativo.
+
 Instalar kubectl:
 https://kubernetes.io/docs/tasks/tools/install-kubectl
 https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/windows/amd64/kubectl.exe
