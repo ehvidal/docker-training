@@ -4,13 +4,15 @@ https://github.com/kubernetes/minikube/
 Para Windows, bajarse:
 https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe
 Renombrarlo como minikube.exe y setearlo en el PATH del sistema operativo.
+
 Instalar kubectl:
 https://kubernetes.io/docs/tasks/tools/install-kubectl
-https://storage.googleapis.com/kubernetes-release/release/v1.11.0/bin/windows/amd64/kubectl.exe
+https://storage.googleapis.com/kubernetes-release/release/v1.11.2/bin/windows/amd64/kubectl.exe
 Tambien agregarlo al PATH del Sistema Operativo.
 
 1. Levantar minikube (por defecto usa virtual box, que deberia estar previamente instalado). 
 minikube start
+
 Si no estamos usando virtual box elegir otro driver, por ejemplo si usamos Hyper-V y levantando cmd o Powershell en modo admin:
 minikube start --vm-driver=hyperv --hyperv-virtual-switch="myswitch" --memory=4096
 
