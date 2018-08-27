@@ -22,6 +22,7 @@ kubectl describe deploy hello-deploy
 
 8. Crear un servicio a partir del mismo:
 kubectl create -f svc.yml
+
 Ver la config del servicio creado:
 kubectl get services -o json
 
