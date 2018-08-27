@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: "auth"
+spec:
+  selector:
+    app: "auth"
+    pod-template-hash: "1587846430"
+    track: "stable"
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
+      nodePort: 31000
+  type: NodePort
