@@ -28,7 +28,7 @@ kubectl get services -o json
 
 9. En el cliente acceder por browser a:
 http://192.168.0.36:30001/
-Reemplazar por la IP que se cre� para el nodo.
+Reemplazar por la IP que se creó para el nodo.
 
 10. Limpiar:
 kubectl delete service hello-node
